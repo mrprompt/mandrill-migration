@@ -1,0 +1,34 @@
+{
+  "name": "mandrill-migration",
+  "version": "0.0.1",
+  "description": "Migrations para templates no Mandrill",
+  "main": "index.js",
+  "scripts": {
+    "coverage": "istanbul cover _mocha -- -R spec",
+    "test": "mocha test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrprompt/mandrill-migration.git"
+  },
+  "keywords": [
+    "mandrill",
+    "templates",
+    "migration"
+  ],
+  "author": "Thiago Paes <mrprompt@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mrprompt/mandrill-migration/issues"
+  },
+  "homepage": "https://github.com/mrprompt/mandrill-migration#readme",
+  "devDependencies": {
+    "istanbul": "^0.4.5",
+    "mocha": "^3.2.0",
+    "mockery": "^2.0.0",
+    "should": "^11.1.2"
+  },
+  "dependencies": {
+    "commander": "^2.9.0"
+  }
+}
