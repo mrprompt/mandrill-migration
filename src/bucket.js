@@ -92,6 +92,33 @@ class Bucket {
             }
         ], callback);
     }
+
+    publish(name, callback) {
+        return this.mandrill.publish(name, callback);
+    }
+
+    migrate(callback) {
+        const vm = this;
+
+        async.waterfall([
+            function(done) {
+                const migrations = vm.load();
+
+                done(null, migrations);
+            },
+            function(templates, done) {
+                const migrated = [];
+
+                templates.forEach((migration) => {
+                    vm.publish(migration.name, (err) => {
+                        migrated.push(migration.name);
+                    });
+                });
+
+                done(null, migrated);
+            }
+        ], callback);
+    }
 }
 
 module.exports = Bucket;

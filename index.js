@@ -22,6 +22,51 @@ program
     });
 
 program
+    .command('generate <dir>')
+    .description('generate a new migration file from availables drafts on Mandrill')
+    .action((dir) => {
+        const bucket = new Bucket(dir, apiKey);
+        
+        bucket.generate((error, templates) => {
+            if (error) {
+                return console.log(error.message);
+            }
+
+            console.log(templates);
+        });
+    });
+
+program
+    .command('publish <name>')
+    .description('publish a single template')
+    .action((name) => {
+        const bucket = new Bucket(dir, apiKey);
+        
+        bucket.publish(name, (error, templates) => {
+            if (error) {
+                return console.log(error.message);
+            }
+
+            console.log(templates);
+        });
+    });
+
+program
+    .command('migrate <dir>')
+    .description('publish all templates on draft bucket')
+    .action((dir) => {
+        const bucket = new Bucket(dir, apiKey);
+        
+        bucket.migrate((error, templates) => {
+            if (error) {
+                return console.log(error.message);
+            }
+
+            console.log(templates);
+        });
+    });
+
+program
     .command('drafts')
     .description('list available drafts on Mandrill')
     .action(() => {
@@ -43,21 +88,6 @@ program
         const bucket = new Bucket('', apiKey);
         
         bucket.all((error, templates) => {
-            if (error) {
-                return console.log(error.message);
-            }
-
-            console.log(templates);
-        });
-    });
-
-program
-    .command('generate <dir>')
-    .description('generate a new migration file from availables drafts on Mandrill')
-    .action((dir) => {
-        const bucket = new Bucket(dir, apiKey);
-        
-        bucket.generate((error, templates) => {
             if (error) {
                 return console.log(error.message);
             }

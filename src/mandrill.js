@@ -32,6 +32,14 @@ class Mandrill {
         
         return result;
     }
+
+    publish(name) {
+        this.client.templates.publish({name}, (result) => {
+            callback(null, result);
+        }, (error) => {
+            callback(error);
+        });
+    }
 }
 
 module.exports = Mandrill;
