@@ -61,8 +61,6 @@ program
             if (error) {
                 return console.log(error.message);
             }
-
-            console.log(templates);
         });
     });
 

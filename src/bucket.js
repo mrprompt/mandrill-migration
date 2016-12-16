@@ -17,7 +17,7 @@ class Bucket {
             let migrations = [];
             const directory = this.directory;
 
-            fs.readdirSync(directory).forEach((file) => {
+            let result = fs.readdirSync(directory).forEach((file) => {
                 const migration = fs.readFileSync(`${directory}/${file}`);
                 const jsonObj = JSON.parse(migration.toString());
 
@@ -44,6 +44,7 @@ class Bucket {
                 rows.forEach((row) => {
                     if (typeof row.published_at !== 'undefined' && 
                         row.updated_at.substring(0, 16) === row.published_at.substring(0, 16)) {
+
                         return;
                     }
 
@@ -106,8 +107,8 @@ class Bucket {
                 }
 
                 templates.forEach((migration) => {
-                    vm.mandrill.publish(migration.name, (result) => {
-                        migrated.push(migration.name);
+                    vm.mandrill.publish(migration.name, (err, result) => {
+                        console.log(migration.name);
                     });
                 });
 
