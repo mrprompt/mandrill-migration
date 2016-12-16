@@ -21,6 +21,21 @@ program
     });
 
 program
+    .command('drafts')
+    .description('list available drafts on Mandrill')
+    .action(() => {
+        const bucket = new Bucket('');
+        
+        bucket.drafts((error, drafts) => {
+            if (error) {
+                return console.log(error.message);
+            }
+
+            console.log(drafts);
+        });
+    });
+
+program
   .parse(process.argv);
 
 if (!program.args.length) {

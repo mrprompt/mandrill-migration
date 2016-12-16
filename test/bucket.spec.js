@@ -42,4 +42,21 @@ describe('Migration Bucket', () => {
             done();
         });
     });
+
+    describe('Drafts', () => {
+        // @todo how to test this?!?
+        xit('list all templates', (done) => {
+            const bucket = new Bucket('');
+            
+            bucket.drafts((err, result) => {
+                console.log(err, result);
+
+                result
+                    .should.be.instanceOf(Error)
+                    .and.have.property('message');
+
+                done();
+            });
+        });
+    });
 });
