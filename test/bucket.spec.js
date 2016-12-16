@@ -106,4 +106,32 @@ describe('Migration Bucket', () => {
             });
         });
     });
+
+    describe('Generate', () => {
+        it('create a file with all drafts templates', (done) => {
+            const bucket = new Bucket('/tmp');
+            
+            bucket.generate((err, result) => {
+                should(err).be.null();
+
+                result.should.be.instanceOf(Array)
+
+                done();
+            });
+        });
+    });
+
+    describe('Migrate', () => {
+        it('read all files on bucket and publish', (done) => {
+            const bucket = new Bucket('/tmp');
+            
+            bucket.migrate((err, result) => {
+                should(err).be.null();
+
+                result.should.be.instanceOf(Array)
+
+                done();
+            });
+        });
+    });
 });

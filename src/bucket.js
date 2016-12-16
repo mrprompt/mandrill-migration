@@ -82,19 +82,11 @@ class Bucket {
                 const json = JSON.stringify(templates);
                 const dest = `${vm.directory}/${file}.json`;
 
-                if (fs.existsSync(dest)) {
-                    return done(new Error(`Migration ${dest} already exists.`));
-                }
-
                 fs.writeFile(dest, json, (err) => {
                     done(err, templates);
                 });
             }
         ], callback);
-    }
-
-    publish(name, callback) {
-        return this.mandrill.publish(name, callback);
     }
 
     migrate(callback) {
@@ -109,8 +101,12 @@ class Bucket {
             function(templates, done) {
                 const migrated = [];
 
+                if (!templates.length) {
+                    return done(null, migrated);
+                }
+
                 templates.forEach((migration) => {
-                    vm.publish(migration.name, (err) => {
+                    vm.mandrill.publish(migration.name, (result) => {
                         migrated.push(migration.name);
                     });
                 });
