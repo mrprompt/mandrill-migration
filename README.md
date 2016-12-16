@@ -2,7 +2,7 @@
 
 Migration tool for Mandrill Tamplates.
 
-This tool generate a bucket if templates on draft status and publish then.
+Generate a migration file with templates on draft status and publish then.
 
 ## Available Commands
 
