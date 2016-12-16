@@ -1,5 +1,9 @@
 # mandrill-migration
 
+[![Build
+Status](https://travis-ci.org/mrprompt/mandrill-migration.svg?branch=master)](https://travis-ci.org/mrprompt/mandrill-migration)
+
+
 Migration tool for Mandrill Tamplates.
 
 Generate a migration file with templates on draft status and publish then.
