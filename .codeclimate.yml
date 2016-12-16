@@ -10,9 +10,9 @@ engines:
 
 ratings:
   paths:
-    - modules/**
+    - src/**
 
 exclude_paths:
-  - bin/**
   - node_modules/**/*
   - test/**
+  - ./index.js

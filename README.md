@@ -2,6 +2,12 @@
 
 [![Build
 Status](https://travis-ci.org/mrprompt/mandrill-migration.svg?branch=master)](https://travis-ci.org/mrprompt/mandrill-migration)
+[![Code
+Climate](https://codeclimate.com/github/mrprompt/mandrill-migration/badges/gpa.svg)](https://codeclimate.com/github/mrprompt/mandrill-migration)
+[![Test
+Coverage](https://codeclimate.com/github/mrprompt/mandrill-migration/badges/coverage.svg)](https://codeclimate.com/github/mrprompt/mandrill-migration/coverage)
+[![Issue
+Count](https://codeclimate.com/github/mrprompt/mandrill-migration/badges/issue_count.svg)](https://codeclimate.com/github/mrprompt/mandrill-migration)
 
 Migration tool for Mandrill Tamplates.
 
