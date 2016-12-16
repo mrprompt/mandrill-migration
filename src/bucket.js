@@ -29,7 +29,7 @@ class Bucket {
         } 
     }
 
-    listAll(callback) {
+    templates(callback) {
         mandrill.templates.list({}, (result) => {
             callback(null, result);
         }, (error) => {
@@ -37,34 +37,60 @@ class Bucket {
         });
     }
 
+    cleanup(templates) {
+        const result = [];
+
+        templates.forEach((row) => {
+            const template = {
+                slug: row.slug,
+                name: row.name,
+                updated_at: row.updated_at,
+                created_at: row.created_at,
+                published_at: row.published_at
+            };
+
+            result.push(template);
+        });
+        
+        return result;
+    }
+
     drafts(callback) {
         const vm = this;
 
         async.waterfall([
             function(done) {
-                vm.listAll(done);
+                vm.templates(done);
             },
             function (templates, done) {
+                const rows = vm.cleanup(templates);
                 const drafts = [];
 
-                templates.forEach((row) => {
+                rows.forEach((row) => {
                     if (typeof row.published_at !== 'undefined' && 
                         row.updated_at.substring(0, 16) === row.published_at.substring(0, 16)) {
                         return;
                     }
 
-                    const template = {
-                        slug: row.slug,
-                        name: row.name,
-                        updated_at: row.updated_at,
-                        created_at: row.created_at,
-                        published_at: row.published_at
-                    };
-
-                    drafts.push(template);
+                    drafts.push(row);
                 });
 
                 done(null, drafts);
+            }
+        ], callback);
+    }
+
+    all(callback) {
+        const vm = this;
+
+        async.waterfall([
+            function(done) {
+                vm.templates(done);
+            },
+            function (templates, done) {
+                const rows = vm.cleanup(templates);
+
+                done(null, rows);
             }
         ], callback);
     }

@@ -36,6 +36,21 @@ program
     });
 
 program
+    .command('templates')
+    .description('list available templates on Mandrill')
+    .action(() => {
+        const bucket = new Bucket('');
+        
+        bucket.all((error, templates) => {
+            if (error) {
+                return console.log(error.message);
+            }
+
+            console.log(templates);
+        });
+    });
+
+program
   .parse(process.argv);
 
 if (!program.args.length) {
