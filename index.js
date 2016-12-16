@@ -4,6 +4,7 @@
 const Bucket = require('./src/bucket');
 const program = require('commander');
 const pkg = require('./package.json');
+const apiKey = process.env.MANDRILL_API_KEY || '';
 
 program
   .version(pkg.version);
@@ -12,7 +13,7 @@ program
     .command('list <dir>')
     .description('list available migrations')
     .action((dir) => {
-        const bucket = new Bucket(dir);
+        const bucket = new Bucket(dir, apiKey);
         const migrations = bucket.load();
 
         migrations.forEach((migration) => {
@@ -24,7 +25,7 @@ program
     .command('drafts')
     .description('list available drafts on Mandrill')
     .action(() => {
-        const bucket = new Bucket('');
+        const bucket = new Bucket('', apiKey);
         
         bucket.drafts((error, drafts) => {
             if (error) {
@@ -39,9 +40,24 @@ program
     .command('templates')
     .description('list available templates on Mandrill')
     .action(() => {
-        const bucket = new Bucket('');
+        const bucket = new Bucket('', apiKey);
         
         bucket.all((error, templates) => {
+            if (error) {
+                return console.log(error.message);
+            }
+
+            console.log(templates);
+        });
+    });
+
+program
+    .command('generate <dir>')
+    .description('generate a new migration file from availables drafts on Mandrill')
+    .action((dir) => {
+        const bucket = new Bucket(dir, apiKey);
+        
+        bucket.generate((error, templates) => {
             if (error) {
                 return console.log(error.message);
             }

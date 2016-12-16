@@ -3,17 +3,18 @@
 const fs = require('fs');
 const _ = require('underscore');
 const async = require('async');
-const mandrill = require('./mandrill')(process.env.MANDRILL_API_KEY);
+const mandrill = require('./mandrill');
+const md5 = require('js-md5');
 
 class Bucket {
-    constructor(bucket = '') {
+    constructor(bucket = '', mandrill_key='') {
         this.directory = bucket;
-        this.migrations = [];
+        this.mandrill = new mandrill(mandrill_key);
     }
 
     load() {
         try {
-            let migrations = this.migrations;
+            let migrations = [];
             const directory = this.directory;
 
             fs.readdirSync(directory).forEach((file) => {
@@ -29,41 +30,15 @@ class Bucket {
         } 
     }
 
-    templates(callback) {
-        mandrill.templates.list({}, (result) => {
-            callback(null, result);
-        }, (error) => {
-            callback(error);
-        });
-    }
-
-    cleanup(templates) {
-        const result = [];
-
-        templates.forEach((row) => {
-            const template = {
-                slug: row.slug,
-                name: row.name,
-                updated_at: row.updated_at,
-                created_at: row.created_at,
-                published_at: row.published_at
-            };
-
-            result.push(template);
-        });
-        
-        return result;
-    }
-
     drafts(callback) {
         const vm = this;
 
         async.waterfall([
             function(done) {
-                vm.templates(done);
+                vm.mandrill.templates(done);
             },
             function (templates, done) {
-                const rows = vm.cleanup(templates);
+                const rows = vm.mandrill.cleanup(templates);
                 const drafts = [];
 
                 rows.forEach((row) => {
@@ -85,12 +60,35 @@ class Bucket {
 
         async.waterfall([
             function(done) {
-                vm.templates(done);
+                vm.mandrill.templates(done);
             },
             function (templates, done) {
-                const rows = vm.cleanup(templates);
+                const rows = vm.mandrill.cleanup(templates);
 
                 done(null, rows);
+            }
+        ], callback);
+    }
+
+    generate(callback) {
+        const vm = this;
+
+        async.waterfall([
+            function(done) {
+                vm.drafts(done);
+            },
+            function (templates, done) {
+                const file = md5(templates);
+                const json = JSON.stringify(templates);
+                const dest = `${vm.directory}/${file}.json`;
+
+                if (fs.existsSync(dest)) {
+                    return done(new Error(`Migration ${dest} already exists.`));
+                }
+
+                fs.writeFile(dest, json, (err) => {
+                    done(err, templates);
+                });
             }
         ], callback);
     }

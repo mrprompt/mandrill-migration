@@ -34,7 +34,11 @@
   "dependencies": {
     "async": "^2.1.4",
     "commander": "^2.9.0",
+    "js-md5": "^0.4.1",
     "mandrill-api": "^1.0.45",
     "underscore": "^1.8.3"
+  },
+  "bin": {
+    "mandrill-migration": "index.js"
   }
 }

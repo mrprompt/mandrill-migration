@@ -1,20 +1,21 @@
 'use strict';
 
+const Mandrill = require('../src/mandrill');
+
 describe('Mandrill Driver', function() {
     describe('Contructor', () => {
-        it('Constructor without api key must be return false', function (done) {
-            const mandrill = require('../src/mandrill')();
+        it('without api key', function (done) {
+            const mandrill = new Mandrill();
 
-            mandrill.should.be.an.instanceOf(Error).and.have.property('message');
-            mandrill.message.should.be.equal('Invalid API Key');        
+            mandrill.should.be.an.instanceOf(Object);
+
             done();
         });
 
-        it('Constructor with any api key must be return mandrill client instance', function (done) {
-            const mandrill = require('../src/mandrill')('fooo');
+        it('with any api key', function (done) {
+            const mandrill = new Mandrill('fooo');
 
-            mandrill.should.be.an.instanceOf(Object).and.have.property('templates');
-            mandrill.should.be.an.instanceOf(Object).and.have.property('debug');
+            mandrill.should.be.an.instanceOf(Object);
             
             done();
         });
