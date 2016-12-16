@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 'use strict';
 
-const mandrill = require('./src/mandrill');
 const Bucket = require('./src/bucket');
 const program = require('commander');
 const pkg = require('./package.json');
