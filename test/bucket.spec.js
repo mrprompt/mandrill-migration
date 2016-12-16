@@ -1,8 +1,44 @@
 'use strict';
 
-const Bucket = require('../src/bucket.js');
+const mockery = require('mockery');
+const should = require('should');
+
+let Bucket = {};
 
 describe('Migration Bucket', () => {
+    before(function() {
+        mockery.enable({
+            warnOnUnregistered: false,
+            warnOnReplace: false
+        });
+
+        class Mandrill {
+            constructor(apiKey) {
+                this.key = apiKey;
+            }
+
+            get templates() {
+                return (callback) => {
+                    callback(null, []);
+                }
+            }
+
+            get cleanup() {
+                return (templates) => {
+                    return [];
+                }
+            }
+        }
+
+        mockery.registerMock('./mandrill', Mandrill);
+
+        Bucket = require('../src/bucket');
+    });
+
+    after(function() {
+        mockery.disable()
+    });
+
     describe('Constructor', () => {
         it('returns object when constructor not have directory', (done) => {
             const bucket = new Bucket();
@@ -44,16 +80,27 @@ describe('Migration Bucket', () => {
     });
 
     describe('Drafts', () => {
-        // @todo how to test this?!?
-        xit('list all templates', (done) => {
+        it('list all drafts templates', (done) => {
             const bucket = new Bucket('');
             
             bucket.drafts((err, result) => {
-                console.log(err, result);
+                should(err).be.null();
 
-                result
-                    .should.be.instanceOf(Error)
-                    .and.have.property('message');
+                result.should.be.instanceOf(Array)
+
+                done();
+            });
+        });
+    });
+
+    describe('All', () => {
+        it('list all templates', (done) => {
+            const bucket = new Bucket('');
+            
+            bucket.all((err, result) => {
+                should(err).be.null();
+
+                result.should.be.instanceOf(Array)
 
                 done();
             });
