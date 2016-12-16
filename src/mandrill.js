@@ -33,7 +33,7 @@ class Mandrill {
         return result;
     }
 
-    publish(name) {
+    publish(name, callback) {
         this.client.templates.publish({name}, (result) => {
             callback(null, result);
         }, (error) => {
