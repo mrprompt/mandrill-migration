@@ -9,7 +9,7 @@ Coverage](https://codeclimate.com/github/mrprompt/mandrill-migration/badges/cove
 [![Issue
 Count](https://codeclimate.com/github/mrprompt/mandrill-migration/badges/issue_count.svg)](https://codeclimate.com/github/mrprompt/mandrill-migration)
 
-Migration tool for Mandrill Tamplates.
+Migration tool for Mandrill Templates.
 
 Generate a migration file with templates on draft status and publish then.
 
