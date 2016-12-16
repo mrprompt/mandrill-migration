@@ -15,6 +15,20 @@ drafts          list available drafts on Mandrill
 templates       list available templates on Mandrill
 ```
 
+## Install
+
+``` 
+npm install -g mandrill-migration
+```
+
+## Use
+
+```
+export MANDRILL_API_KEY="<your-mandrill-api-key>"
+
+mandrill-migration <command> <arg>
+```
+
 ## Contributing
 
 Some ways to contribute
@@ -24,6 +38,12 @@ Some ways to contribute
 - Create an Issue
 - Send a Pull Request
 - Use
+
+## Tests
+
+```
+npm test
+```
 
 ## License
 MIT
