@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "commander": "^2.9.0",
-    "mandrill-api": "^1.0.45"
+    "mandrill-api": "^1.0.45",
+    "underscore": "^1.8.3"
   }
 }
