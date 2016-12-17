@@ -108,6 +108,10 @@ class Bucket {
 
                 templates.forEach((migration) => {
                     vm.mandrill.publish(migration.name, (err, result) => {
+                        if (err) {
+                            return console.log(err.message);
+                        }
+
                         console.log(migration.name);
                     });
                 });
